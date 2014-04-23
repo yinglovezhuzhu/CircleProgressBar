@@ -39,14 +39,18 @@ import com.android.opensource.R;
  */
 public class CircleProgressBar extends View {
 	
+	private static final int MIN_PROGRESS_WIDTH = 2;
+	
+//	private static final int 
+	
 //	private int mMinWidth;
 //	private int mMinHeight;
 //	private int mMaxWidth;
 //	private int mMaxHeight;
 	
 	private int mMaxProgress = 100;
-	private int mProgress = 30;
-	private int mProgressStrokeWidth = 10;
+	private int mProgress = 0;
+	private int mProgressWidth = 0;
 	private int mTextHeight = 0;
 	
 	/** Background color */
@@ -97,6 +101,7 @@ public class CircleProgressBar extends View {
 		setProgressBackgroundColor(a.getColor(R.styleable.CircleProgressBar_progressBackgroundColor, mProgressBackgroundColor));
 		setProgressColor(a.getColor(R.styleable.CircleProgressBar_progressColor, mProgressColor));
 		setCenterBackgroundColor(a.getColor(R.styleable.CircleProgressBar_centerBackgroundColor, mCenterBackgroundColor));
+		setProgressWidth(a.getDimensionPixelSize(R.styleable.CircleProgressBar_progressWidth, 0));
 		mShowNumber = a.getBoolean(R.styleable.CircleProgressBar_showNumber, false);
 		setMaxProgress(a.getInt(R.styleable.CircleProgressBar_max, mMaxProgress));
 		setProgress(a.getInt(R.styleable.CircleProgressBar_progress, mProgress));
@@ -208,6 +213,23 @@ public class CircleProgressBar extends View {
 	}
 	
 	/**
+	 * Set progress width.
+	 * @param width
+	 */
+	public void setProgressWidth(int width) {
+		this.mProgressWidth = width;
+		refreshProgress();
+	}
+	
+	/**
+	 * Get progress width.
+	 * @return
+	 */
+	public int getProgressWidth() {
+		return mProgressWidth;
+	}
+	
+	/**
 	 * Get number text color
 	 * @return
 	 */
@@ -273,13 +295,17 @@ public class CircleProgressBar extends View {
 	 */
 	private void drawProgress(Canvas canvas, int width, int height) {
 		//Set progress stroke
-		mPaint.setStrokeWidth(mProgressStrokeWidth); //ProgressWidth
+		if(mProgressWidth < 1) {
+			int pwidth = width / 14;
+			mProgressWidth = pwidth < MIN_PROGRESS_WIDTH ? MIN_PROGRESS_WIDTH : pwidth;
+		}
+		mPaint.setStrokeWidth(mProgressWidth); //ProgressWidth
 		mPaint.setStyle(Style.STROKE);
  
-		mOval.left = mProgressStrokeWidth / 2; // Left 
-		mOval.top = mProgressStrokeWidth / 2; // Top
-		mOval.right = width - mProgressStrokeWidth / 2; // Right
-		mOval.bottom = height - mProgressStrokeWidth / 2; // Bottom
+		mOval.left = mProgressWidth / 2; // Left 
+		mOval.top = mProgressWidth / 2; // Top
+		mOval.right = width - mProgressWidth / 2; // Right
+		mOval.bottom = height - mProgressWidth / 2; // Bottom
 		
 		//Draw progress background
 		mPaint.setColor(mProgressBackgroundColor);
@@ -297,10 +323,10 @@ public class CircleProgressBar extends View {
 	 * @param height
 	 */
 	private void drawCenter(Canvas canvas, int width, int height) {
-		mOval.left = mProgressStrokeWidth; // Left 
-		mOval.top = mProgressStrokeWidth; // Top
-		mOval.right = width - mProgressStrokeWidth; // Right
-		mOval.bottom = height - mProgressStrokeWidth; // Bottom
+		mOval.left = mProgressWidth; // Left 
+		mOval.top = mProgressWidth; // Top
+		mOval.right = width - mProgressWidth; // Right
+		mOval.bottom = height - mProgressWidth; // Bottom
 		mPaint.setColor(mCenterBackgroundColor);
 		mPaint.setStyle(Style.FILL);
 		canvas.drawArc(mOval, 0, 360, false, mPaint);

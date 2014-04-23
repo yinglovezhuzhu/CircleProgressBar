@@ -5,6 +5,7 @@
         <attr name="backgroundColor" format="color" />
         <attr name="progressColor" format="color" />
         <attr name="progressBackgroundColor" format="color"/>
+        <attr name="progressWidth" format="dimension" />
         <attr name="centerBackgroundColor" format="color" />
         <attr name="showNumber" format="boolean" />
         <attr name="max" format="integer"/>

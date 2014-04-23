@@ -16,8 +16,9 @@
         android:layout_centerInParent="true"
         personalattr:backgroundColor="#00FFFFFF"
         personalattr:progressBackgroundColor="#FFAABBCC"
-        personalattr:centerBackgroundColor="#FFFF0000"
+        personalattr:centerBackgroundColor="#00FF0000"
         personalattr:max="100"
-        personalattr:showNumber="true"/>
+        personalattr:showNumber="true"
+        personalattr:progressWidth="5dip"/>
 
 </RelativeLayout>
